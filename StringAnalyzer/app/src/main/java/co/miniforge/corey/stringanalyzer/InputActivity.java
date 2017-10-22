@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import static android.text.TextUtils.isEmpty;
 
 public class InputActivity extends AppCompatActivity {
     public static String intentTag = "inputData";
@@ -32,10 +35,22 @@ public class InputActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AnalyzerActivity.class);
-                intent.putExtra(intentTag, input.getText().toString());
-                startActivity(intent);
+                if(isEmpty(input))
+                {
+                    String concatenatedText = "*BLEEP BLOOP BLEEP BEEP BEEP BZZZT!!!* (Don't be lame, type a phrase!)";
+                    Toast.makeText(view.getContext(), concatenatedText, Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(getApplicationContext(), AnalyzerActivity.class);
+                    intent.putExtra(intentTag, input.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
+    }
+
+    //checks if isEmpty
+    private boolean isEmpty(EditText editText)
+    {
+        return editText.getText().toString().trim().length() == 0;
     }
 }
